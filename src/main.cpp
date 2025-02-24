@@ -39,11 +39,11 @@ const int LCDData5Pin      = 5;  //pin 11 on ATmega328 chip
 const int LCDData6Pin      = 6;  //pin 12 on ATmega328 chip
 const int LCDData7Pin      = 7;  //pin 13 on ATmega328 chip
 
-const int  PixelX = 0;
-const int  PixelY = 0;
-const byte ColorRed = 0;
-const byte ColorGreen = 0;
-const byte ColorBlue = 0;
+int  PixelX = 0;
+int  PixelY = 0;
+byte ColorRed = 0;
+byte ColorGreen = 0;
+byte ColorBlue = 0;
 
 
 
@@ -120,7 +120,52 @@ void loop() {
   
   digitalWrite(LCDDotClockPin, LOW);  
   digitalWrite(LCDDotClockPin, HIGH);
-  PixelX++
+
+  //sending red
+
+
+  digitalWrite(LCDDotClockPin, LOW);  
+  digitalWrite(LCDDotClockPin, HIGH);
+
+
+  //sending green
+
+
+  digitalWrite(LCDDotClockPin, LOW);  
+  digitalWrite(LCDDotClockPin, HIGH);
+
+
+  //sending blue
+
+
+  
+  PixelX++;
+ 
+
+  if (PixelX==318)
+  {
+    digitalWrite(LCDHSyncPin, LOW);
+  }
+
+  if (PixelX == 319)
+  {
+    digitalWrite(LCDHSyncPin, HIGH);
+    PixelY++;
+    PixelX=0;
+
+    if (PixelY == 198)
+    {
+      digitalWrite(LCDVSyncPin, LOW);
+    }
+
+    if (PixelY == 199)
+    {
+      digitalWrite(LCDVSyncPin, HIGH);
+      PixelY=0;
+    }
+
+
+  }
 
   
 
