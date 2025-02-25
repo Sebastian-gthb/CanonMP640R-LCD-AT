@@ -121,13 +121,15 @@ void loop() {
   digitalWrite(LCDDotClockPin, HIGH);
 
   //sending red
-
+  PIND = ColorRed;
+  
 
   digitalWrite(LCDDotClockPin, LOW);  
   digitalWrite(LCDDotClockPin, HIGH);
 
 
   //sending green
+  PIND = ColorGreen;
 
 
   digitalWrite(LCDDotClockPin, LOW);  
@@ -135,10 +137,12 @@ void loop() {
 
 
   //sending blue
+  PIND = ColorBlue;
 
 
   
   PixelX++;
+  ColorRed++;
  
 
   if (PixelX==318)
@@ -150,6 +154,7 @@ void loop() {
   {
     digitalWrite(LCDHSyncPin, HIGH);
     PixelY++;
+    ColorGreen++;
     PixelX=0;
 
     if (PixelY == 198)
@@ -160,6 +165,7 @@ void loop() {
     if (PixelY == 199)
     {
       digitalWrite(LCDVSyncPin, HIGH);
+      ColorBlue++;
       PixelY=0;
     }
 
