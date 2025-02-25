@@ -15,7 +15,7 @@ OC2B--PWM--3--INT1--PCINT19--PD3--|5    24|--PC1--PCINT9---ADC1--15--A1
 OC0B--PWM--5----T1--PCINT21--PD5--|11   18|--PB4--PCINT4--MISO--12
 OC0A--PWM--6--AIN0--PCINT22--PD6--|12   17|--PB3--PCINT3--OC2A--11--PWM--MOSI
            7--AIN1--PCINT23--PD7--|13   16|--PB2--PCINT2--OC1B--10--PWM--SS
-     ICP1--8--CLK0--PCINT0---PB0--|14   17|--PB1--PCINT1--OC1A---9--PWM
+     ICP1--8--CLK0--PCINT0---PB0--|14   15|--PB1--PCINT1--OC1A---9--PWM
                                   +-------+
 
 */
@@ -23,13 +23,13 @@ OC0A--PWM--6--AIN0--PCINT22--PD6--|12   17|--PB3--PCINT3--OC2A--11--PWM--MOSI
 #include <Arduino.h>
 #include <SPI.h>
 //define PINs
-const int LCDEnabledPin    = 9;  //pin 17 on Atmega328 chip
+const int LCDEnabledPin    = 9;  //pin 15 on Atmega328 chip
 const int LCDCommandPin    = 10; //pin 16 on ATmega328 chip (SPI !ChipSelect)
 //const int LCDSPIClockPin = 13;  //pin 19 on ATmega328 chip (will be defined by SPI.begin)
 //const int LCDSPIDataPin  = 11;  //pin 17 on ATmega328 chip (will be defined by SPI.begin)
-const int LCDDotClockPin   = 14;  //pin  on ATmega328 chip
-const int LCDHSyncPin      = 15;  //pin  on ATmega328 chip
-const int LCDVSyncPin      = 16;  //pin  on ATmega328 chip
+const int LCDDotClockPin   = 14;  //pin 23 on ATmega328 chip
+const int LCDHSyncPin      = 15;  //pin 24 on ATmega328 chip
+const int LCDVSyncPin      = 16;  //pin 25 on ATmega328 chip
 const int LCDData0Pin      = 0;  //pin  2 on ATmega328 chip
 const int LCDData1Pin      = 1;  //pin  3 on ATmega328 chip
 const int LCDData2Pin      = 2;  //pin  4 on ATmega328 chip
