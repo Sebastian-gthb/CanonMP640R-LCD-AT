@@ -110,10 +110,10 @@ void setup() {
     j++;
     SPI.transfer(DisplayInit[j]);
     j++;
-    delay(1);  //between each word is a delay of 1ms
-
+  
     digitalWrite(LCDCommandPin, HIGH);   //sending commands finished
 
+    delay(1);  //between each word is a delay of 1ms  
   }
 
 
