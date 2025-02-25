@@ -99,19 +99,23 @@ void setup() {
   digitalWrite(LCDEnabledPin, HIGH);
 
 
-  digitalWrite(LCDCommandPin, LOW);   //prepare to sending commands
-
+  
   //init the LCD Display
   byte j = 0;
   for (byte i = 0; i < 75; i++) {
+
+    digitalWrite(LCDCommandPin, LOW);   //prepare to sending commands
+
     SPI.transfer(DisplayInit[j]);
     j++;
     SPI.transfer(DisplayInit[j]);
     j++;
     delay(1);  //between each word is a delay of 1ms
+
+    digitalWrite(LCDCommandPin, HIGH);   //sending commands finished
+
   }
 
-  digitalWrite(LCDCommandPin, HIGH);   //sending commands finished
 
 }
 
