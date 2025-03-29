@@ -78,14 +78,14 @@ void setup() {
   pinMode(18, OUTPUT);
   pinMode(19, OUTPUT);
 
-  delay(100);  //delay for stable power supply
+  //delay(100);  //delay for stable power supply
 
   //set the normal output signals
-  digitalWrite(LCDEnabledPin,  LOW);
-  digitalWrite(LCDDotClockPin, HIGH);
-  digitalWrite(LCDHSyncPin,    HIGH);
-  digitalWrite(LCDVSyncPin,    HIGH);
-  digitalWrite(LCDCommandPin,  HIGH);
+  digitalWrite(LCDEnabledPin,  LOW);   //low at power up
+  digitalWrite(LCDDotClockPin, LOW);   //low at power up
+  digitalWrite(LCDHSyncPin,    LOW);   // ?
+  digitalWrite(LCDVSyncPin,    LOW);   // ?
+  digitalWrite(LCDCommandPin,  LOW);   // ?
  
 
   SPI.begin();
@@ -93,6 +93,9 @@ void setup() {
   // I have the command sniffed as LSB first. So we must send this as LSB.
   // The clock signal pulse to positive and the data is set after the falling edge and will read on the rising edge. This is SPI_MODE0
   SPI.beginTransaction(SPISettings(1666000, LSBFIRST, SPI_MODE0));
+
+
+  delay(750);     //the SPI data transmission starting after 780ms from power up. 
 
 
   //enable Display or ChipSelect
@@ -115,6 +118,11 @@ void setup() {
 
     delay(1);  //between each word is a delay of 1ms  
   }
+
+  digitalWrite(LCDDotClockPin, HIGH);
+  digitalWrite(LCDHSyncPin,    HIGH);
+  digitalWrite(LCDVSyncPin,    HIGH);
+  digitalWrite(LCDCommandPin,  HIGH);
 
 
 }
