@@ -24,7 +24,7 @@ OC0A--PWM--6--AIN0--PCINT22--PD6--|12   17|--PB3--PCINT3--OC2A--11--PWM--MOSI
 #include <SPI.h>
 //define PINs
 const int LCDEnabledPin    = 9;  //pin 15 on Atmega328 chip
-const int LCDCommandPin    = 10; //pin 16 on ATmega328 chip (SPI !ChipSelect)
+const int LCDSPICSPin      = 10; //pin 16 on ATmega328 chip (SPI !ChipSelect)
 //const int LCDSPIClockPin = 13;  //pin 19 on ATmega328 chip (will be defined by SPI.begin)
 //const int LCDSPIDataPin  = 11;  //pin 17 on ATmega328 chip (will be defined by SPI.begin)
 const int LCDDotClockPin   = 14;  //pin 23 on ATmega328 chip
@@ -83,47 +83,44 @@ void setup() {
   //set the normal output signals
   digitalWrite(LCDEnabledPin,  LOW);   //low at power up
   digitalWrite(LCDDotClockPin, LOW);   //low at power up
-  digitalWrite(LCDHSyncPin,    LOW);   // ?
-  digitalWrite(LCDVSyncPin,    LOW);   // ?
-  digitalWrite(LCDCommandPin,  LOW);   // ?
+  digitalWrite(LCDHSyncPin,    LOW);   //low at power up
+  digitalWrite(LCDVSyncPin,    LOW);   //low at power up
+  digitalWrite(LCDSPICSPin,    LOW);   //low at power up
  
-
   SPI.begin();
   // The LCD display in the Canon printer has ha SPI clock rate from nearly 1,666MHz.
   // I have the command sniffed as LSB first. So we must send this as LSB.
   // The clock signal pulse to positive and the data is set after the falling edge and will read on the rising edge. This is SPI_MODE0
   SPI.beginTransaction(SPISettings(1666000, LSBFIRST, SPI_MODE0));
 
-
-  delay(750);     //the SPI data transmission starting after 780ms from power up. 
-
-
-  //enable Display or ChipSelect
+  // differen timings to set some lines up on startup
+  // maybe the startup of the ATMega needs 30ms?
+  //  90ms after Vcc H+Vsync line become high (90-30=50)
+  delay(50);
+  digitalWrite(LCDHSyncPin,   HIGH);
+  digitalWrite(LCDVSyncPin,   HIGH);
+  // 130ms after Vcc SPI CS goes high (130-90=40)
+  delay(40);
+  digitalWrite(LCDSPICSPin,   HIGH);
+  // 340ms after Vcc SPI EN goes high and SPI data transfer starts (340-130=210)
+  delay(210);
   digitalWrite(LCDEnabledPin, HIGH);
 
-
-  
   //init the LCD Display
   byte j = 0;
   for (byte i = 0; i < 75; i++) {
 
-    digitalWrite(LCDCommandPin, LOW);   //prepare to sending commands
+    digitalWrite(LCDSPICSPin , LOW);   //prepare to sending commands
 
     SPI.transfer(DisplayInit[j]);
     j++;
     SPI.transfer(DisplayInit[j]);
     j++;
   
-    digitalWrite(LCDCommandPin, HIGH);   //sending commands finished
+    digitalWrite(LCDSPICSPin, HIGH);   //sending commands finished
 
     delay(1);  //between each word is a delay of 1ms  
   }
-
-  digitalWrite(LCDDotClockPin, HIGH);
-  digitalWrite(LCDHSyncPin,    HIGH);
-  digitalWrite(LCDVSyncPin,    HIGH);
-  digitalWrite(LCDCommandPin,  HIGH);
-
 
 }
 
